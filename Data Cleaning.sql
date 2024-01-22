@@ -1,20 +1,24 @@
 
-select * 
-from NashvilleHousing
+Select * 
+From NashvilleHousing
 
 -- Standardize Date Format
-select SaleDate ,CONVERT(Date, SaleDate)
-from NashvilleHousing
+
+Select SaleDate ,CONVERT(Date, SaleDate)
+From NashvilleHousing
 
 -- Add a new column which will has the correct data format
+
 Alter Table NashvilleHousing
 Add SaleDateConverted Date;
 
 -- Update the new collumn to the correct data format
+
 Update NashvilleHousing 
 Set SaleDateConverted = Convert(Date, SaleDate)
 
 -- Visualize the new column compared to the old column
+
 Select SaleDate, SaleDateConverted
 From NashvilleHousing
 
@@ -23,28 +27,29 @@ From NashvilleHousing
 -- Populate Property Address data
 
 Select PropertyAddress 
-from NashvilleHousing
-order by PropertyAddress
+From NashvilleHousing
+Order by PropertyAddress
 
 Select *
-from NashvilleHousing
-where PropertyAddress is null
+From NashvilleHousing
+Where PropertyAddress is null
 
 -- Filling the null rows (PropertyAddress with the proper values)
+
 Select a.ParcelID, a.PropertyAddress , b.ParcelID, b.PropertyAddress--, ISNULL(a.PropertyAddress, b.PropertyAddress) as PropertyAddressFilled
-from NashvilleHousing a
+From NashvilleHousing a
 Join NashvilleHousing b
 	ON a.ParcelID = b.ParcelID
 	AND a.UniqueID <> b.UniqueID
-where a.PropertyAddress is null
+Where a.PropertyAddress is null
 
 Update a
 Set PropertyAddress = ISNULL(a.PropertyAddress, b.PropertyAddress)
-from NashvilleHousing a
+From NashvilleHousing a
 Join NashvilleHousing b
 	ON a.ParcelID = b.ParcelID
 	AND a.UniqueID <> b.UniqueID
-where a.PropertyAddress is null
+Where a.PropertyAddress is null
 
 --------------------------------------------------------------------------------
 --Breaking out Address into Individual Columns (Address, City, State) 
